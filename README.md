@@ -6,4 +6,4 @@ This can ONLY be used on dedicated servers. If you try to inject this dll on you
 
 ## Setup
 1. Clone the repository and run the `generate.bat` file provided
-2. Build the solution and copy the output dll to `%LOCALAPPDATA%\Plutonium\storage\t6\plugins\`
+2. Build the solution and copy the output dll to `<GAMEDIR>\t6r\data\plugins\`

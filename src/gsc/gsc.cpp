@@ -7,7 +7,10 @@ void(*scr_get_common_function(const char** pName, int* type, int* min_args, int*
 {
     auto func = function::find(*pName);
     if (func == nullptr)
-        return 0;
+    {
+        auto value = Scr_GetCommonFunction(pName, type, min_args, max_args);
+        return reinterpret_cast<void(__cdecl*)()>(value);
+    }
 
     *pName = func->actionString;
     *type = func->type;
@@ -20,7 +23,10 @@ void(*player_get_method(const char** pName, int* min_args, int* max_args))(scr_e
 {
     auto method = method::find(*pName);
     if (method == nullptr)
-        return 0;
+    {
+        auto value = Player_GetMethod(pName, min_args, max_args);
+        return reinterpret_cast<void(__cdecl*)(scr_entref_t)>(value);
+    }
 
     *pName = method->actionString;
     *min_args = method->min_args;

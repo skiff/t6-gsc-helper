@@ -2,6 +2,9 @@
 
 gentity_s* g_entities = reinterpret_cast<gentity_s*>(0x21EF7C0);
 
+void* (__cdecl* Scr_GetCommonFunction)(const char**, int*, int*, int*) = (decltype(Scr_GetCommonFunction))0x691110;
+void* (__cdecl* Player_GetMethod)(const char**, int*, int*) = (decltype(Player_GetMethod))0x432480;
+
 void(__cdecl* Scr_AddEntity)(scriptInstance_t, gentity_s*) = (decltype(Scr_AddEntity))0x4C20F0;
 void(__cdecl* Scr_AddFloat)(scriptInstance_t, float) = (decltype(Scr_AddFloat))0x579130;
 void(__cdecl* Scr_AddInt)(scriptInstance_t, int) = (decltype(Scr_AddInt))0x57AFF0;
