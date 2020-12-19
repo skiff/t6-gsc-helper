@@ -24,16 +24,7 @@ BuiltinMethodDef* method::find(const std::string& name)
     if (itr != registered_methods.end())
         return &itr->second;
 
-    int index = 0;
-    auto method = (BuiltinMethodDef*)0xC726A8;
-    while (name != method->actionString)
-    {
-        if (++index > 277)
-            return nullptr;
-        method++;
-    }
-
-    return method;
+    return nullptr;
 }
 
 /*
@@ -42,12 +33,12 @@ BuiltinMethodDef* method::find(const std::string& name)
 void method::example_one(scr_entref_t entref)
 {
     // get the calling entity
-    auto* self = &g_entities[entref.entnum];
+    auto* self = &game::g_entities[entref.entnum];
     auto num = self->entity_num;
 
     // do your logic here
 
-    Scr_AddString(SCRIPTINSTANCE_SERVER, "hello world");
+    game::Scr_AddString(SCRIPTINSTANCE_SERVER, "hello world");
 }
 
 /*
@@ -57,16 +48,16 @@ void method::example_one(scr_entref_t entref)
 void method::example_two(scr_entref_t entref)
 {
     // get the calling entity
-    auto* self = &g_entities[entref.entnum];
+    auto* self = &game::g_entities[entref.entnum];
     auto num = self->entity_num;
 
-    auto* parameter_one = Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
-    auto* parameter_two = Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
+    auto* parameter_one = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
+    auto* parameter_two = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
     // If the parameters were integers, you would need to use Scr_GetInt
 
     // do your logic here
 
-    Scr_AddFloat(SCRIPTINSTANCE_SERVER, 100.0f);
+    game::Scr_AddFloat(SCRIPTINSTANCE_SERVER, 100.0f);
 }
 
 /*
@@ -76,19 +67,19 @@ void method::example_two(scr_entref_t entref)
 void method::example_three(scr_entref_t entref)
 {
     // get the calling entity
-    auto* self = &g_entities[entref.entnum];
+    auto* self = &game::g_entities[entref.entnum];
     auto num = self->entity_num;
 
-    auto* parameter_one = Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
+    auto* parameter_one = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
     const char* parameter_two = nullptr;
 
     // Since the second parameter is optional, we need to verify that it was given before trying to read it
-    if (Scr_GetNumParam(SCRIPTINSTANCE_SERVER) > 1)
+    if (game::Scr_GetNumParam(SCRIPTINSTANCE_SERVER) > 1)
     {
-        parameter_two = Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
+        parameter_two = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
     }
 
     // do your logic here
 
-    Scr_AddInt(SCRIPTINSTANCE_SERVER, num);
+    game::Scr_AddInt(SCRIPTINSTANCE_SERVER, num);
 }

@@ -8,7 +8,7 @@ void(*scr_get_common_function(const char** pName, int* type, int* min_args, int*
     auto func = function::find(*pName);
     if (func == nullptr)
     {
-        auto value = Scr_GetCommonFunction(pName, type, min_args, max_args);
+        auto value = game::Scr_GetCommonFunction(pName, type, min_args, max_args);
         return reinterpret_cast<void(__cdecl*)()>(value);
     }
 
@@ -24,7 +24,7 @@ void(*player_get_method(const char** pName, int* min_args, int* max_args))(scr_e
     auto method = method::find(*pName);
     if (method == nullptr)
     {
-        auto value = Player_GetMethod(pName, min_args, max_args);
+        auto value = game::Player_GetMethod(pName, min_args, max_args);
         return reinterpret_cast<void(__cdecl*)(scr_entref_t)>(value);
     }
 
@@ -36,8 +36,8 @@ void(*player_get_method(const char** pName, int* min_args, int* max_args))(scr_e
 
 void gsc::setup()
 {
-    hook::call(0x4B580D, scr_get_common_function);
-    hook::call(0x59D0AE, player_get_method);
+    hook::call(SELECT(0x4B580D, 0x4AD09D), scr_get_common_function);
+    hook::call(SELECT(0x59D0AE, 0x48613E), player_get_method);
 
     /*
     Here is where you should add you custom gsc functions

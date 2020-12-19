@@ -24,16 +24,7 @@ BuiltinFunctionDef* function::find(const std::string& name)
     if (itr != registered_functions.end())
         return &itr->second;
 
-    int index = 0;
-    auto func = (BuiltinFunctionDef*)0xC75160;
-    while (name != func->actionString)
-    {
-        if (++index > 220)
-            return nullptr;
-        func++;
-    }
-
-    return func;
+    return nullptr;
 }
 
 /*
@@ -45,7 +36,7 @@ void function::example_one()
 
     // use an "Scr_Add" function to set the return value at the end of your function
     // if this was supposed to return an integer, you would use Scr_AddInt
-    Scr_AddString(SCRIPTINSTANCE_SERVER, "hello world");
+    game::Scr_AddString(SCRIPTINSTANCE_SERVER, "hello world");
 }
 
 /*
@@ -54,13 +45,13 @@ void function::example_one()
 */
 void function::example_two()
 {
-    auto* parameter_one = Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
-    auto* parameter_two = Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
+    auto* parameter_one = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
+    auto* parameter_two = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
     // If the parameters were integers, you would need to use Scr_GetInt
 
     // do your logic here
 
-    Scr_AddFloat(SCRIPTINSTANCE_SERVER, 100.0f);
+    game::Scr_AddFloat(SCRIPTINSTANCE_SERVER, 100.0f);
 }
 
 /*
@@ -69,16 +60,16 @@ void function::example_two()
 */
 void function::example_three()
 {
-    auto* parameter_one = Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
+    auto* parameter_one = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 0); // index 0 represents the first parameter
     const char* parameter_two = nullptr;
     
     // Since the second parameter is optional, we need to verify that it was given before trying to read it
-    if (Scr_GetNumParam(SCRIPTINSTANCE_SERVER) > 1)
+    if (game::Scr_GetNumParam(SCRIPTINSTANCE_SERVER) > 1)
     {
-        parameter_two = Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
+        parameter_two = game::Scr_GetString(SCRIPTINSTANCE_SERVER, 1); // index 1 represents the second parameter
     }
 
     // do your logic here
 
-    Scr_AddInt(SCRIPTINSTANCE_SERVER, 100);
+    game::Scr_AddInt(SCRIPTINSTANCE_SERVER, 100);
 }
