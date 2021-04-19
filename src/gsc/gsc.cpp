@@ -3,12 +3,13 @@
 #include "gsc/functions.hpp"
 #include "gsc/methods.hpp"
 
+void* (__cdecl* scr_get_common_function_t)(const char**, int*, int*, int*) = nullptr;
 void(*scr_get_common_function(const char** pName, int* type, int* min_args, int* max_args))()
 {
     auto func = function::find(*pName);
     if (func == nullptr)
     {
-        auto value = game::Scr_GetCommonFunction(pName, type, min_args, max_args);
+        auto value = scr_get_common_function_t(pName, type, min_args, max_args);
         return reinterpret_cast<void(__cdecl*)()>(value);
     }
 
@@ -19,12 +20,13 @@ void(*scr_get_common_function(const char** pName, int* type, int* min_args, int*
     return func->actionFunc;
 }
 
+void* (__cdecl* player_get_method_t)(const char**, int*, int*) = nullptr;
 void(*player_get_method(const char** pName, int* min_args, int* max_args))(scr_entref_t)
 {
     auto method = method::find(*pName);
     if (method == nullptr)
     {
-        auto value = game::Player_GetMethod(pName, min_args, max_args);
+        auto value = player_get_method_t(pName, min_args, max_args);
         return reinterpret_cast<void(__cdecl*)(scr_entref_t)>(value);
     }
 
@@ -36,8 +38,12 @@ void(*player_get_method(const char** pName, int* min_args, int* max_args))(scr_e
 
 void gsc::setup()
 {
-    hook::call(SELECT(0x4B580D, 0x4AD09D), scr_get_common_function);
-    hook::call(SELECT(0x59D0AE, 0x48613E), player_get_method);
+    // store the address of the custom pluto code to be called if it's needed
+    scr_get_common_function_t = reinterpret_cast<decltype(scr_get_common_function_t)>(hook::get_relative(SELECT(0x4B57B0, 0x4AD040)));
+    player_get_method_t =       reinterpret_cast<decltype(player_get_method_t)>      (hook::get_relative(SELECT(0x432480, 0x6F2DB0)));
+
+    hook::jump(SELECT(0x4B57B0, 0x4AD040), scr_get_common_function);
+    hook::jump(SELECT(0x432480, 0x6F2DB0), player_get_method);
 
     /*
     Here is where you should add you custom gsc functions

@@ -15,9 +15,6 @@ namespace game
 
 	extern gentity_s* g_entities;
 
-	extern void* (__cdecl* Scr_GetCommonFunction)(const char**, int*, int*, int*);
-	extern void* (__cdecl* Player_GetMethod)(const char**, int*, int*);
-
 	extern void(__cdecl* Scr_AddEntity)(scriptInstance_t inst, gentity_s* entity);
 	extern void(__cdecl* Scr_AddFloat)(scriptInstance_t inst, float value);
 	extern void(__cdecl* Scr_AddInt)(scriptInstance_t inst, int value);

@@ -13,6 +13,8 @@ public:
 	static void call(std::uintptr_t address, void* destination);
 	static void jump(std::uintptr_t address, void* destination);
 
+	static std::uintptr_t get_relative(std::uintptr_t address);
+
 	template<typename T> static void set(std::uintptr_t address, T data)
 	{
 		set(address, &data, sizeof(T));

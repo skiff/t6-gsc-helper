@@ -68,3 +68,13 @@ void hook::jump(std::uintptr_t address, void* destination)
 
 	delete[] bytes;
 }
+
+std::uintptr_t hook::get_relative(std::uintptr_t address)
+{
+	auto read_address = address + 1;
+
+	std::uintptr_t relative;
+	get(read_address, &relative, 4);
+
+	return address + relative + 5;
+}
