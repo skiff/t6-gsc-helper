@@ -33,8 +33,12 @@ using namespace std::literals;
 #pragma warning(disable: 28182)
 
 #include "utils/hook.hpp"
+#include "utils/string.hpp"
 
 #include "game/structs.hpp"
 #include "game/functions.hpp"
+#include "game/symbols.hpp"
 
-#include "gsc/gsc.hpp"
+#include "gsc/functions.hpp"
+#include "gsc/methods.hpp"
+#include "gsc/script.hpp"

@@ -13,23 +13,34 @@ namespace game
 
 	extern gamemode current;
 
-	extern gentity_s* g_entities;
-
-	extern void(__cdecl* Scr_AddEntity)(scriptInstance_t inst, gentity_s* entity);
-	extern void(__cdecl* Scr_AddFloat)(scriptInstance_t inst, float value);
-	extern void(__cdecl* Scr_AddInt)(scriptInstance_t inst, int value);
-	extern void(__cdecl* Scr_AddString)(scriptInstance_t inst, const char* value);
-	extern void(__cdecl* Scr_AddVector)(scriptInstance_t inst, float* value);
-
-	extern int(__cdecl* Scr_GetNumParam)(scriptInstance_t inst);
-
-	extern gentity_s* (__cdecl* Scr_GetEntity)(scriptInstance_t inst, int index);
-	extern float(__cdecl* Scr_GetFloat)(scriptInstance_t inst, int index);
-	extern int(__cdecl* Scr_GetInt)(scriptInstance_t inst, int index);
-	extern const char* (__cdecl* Scr_GetString)(scriptInstance_t inst, int index);
-	extern void(__cdecl* Scr_GetVector)(scriptInstance_t inst, int index, float* out);
-
 	bool is_mp();
 	bool is_zm();
-	void init();
+	void set_mode();
+
+	template <typename T> class symbol
+	{
+	public:
+		symbol(const size_t mp_a, const size_t zm_a) : mp_(reinterpret_cast<T*>(mp_a)), zm_(reinterpret_cast<T*>(zm_a))
+		{
+		}
+
+		T* get() const
+		{
+			return game::is_mp() ? mp_ : zm_;
+		}
+
+		operator T* () const
+		{
+			return this->get();
+		}
+
+		T* operator->() const
+		{
+			return this->get();
+		}
+
+	private:
+		T* mp_;
+		T* zm_;
+	};
 }
